@@ -11,28 +11,12 @@ const {
 
 router.post("/users", async (req, res) => {
   const user = new User(req.body);
-  let token;
+  const token = await user.generateAuthToken();
   try {
-    console.log("user", req.body, user);
-    try {
-      await user.save();
-    } catch (e) {
-      console.log("error", e);
-    }
-    try {
-      sendWelcomeEmail(user.email, user.name);
-    } catch (e) {
-      console.log("error 2", e);
-    }
-    try {
-      token = await user.generateAuthToken();
-    } catch (e) {
-      console.log("error3", e);
-    }
-    console.log("token", token);
+    await user.save();
+    sendWelcomeEmail(user.email, user.name);
     res.status(201).send({ user, token });
   } catch (e) {
-    console.log("Error", e);
     res.status(400).send(e);
   }
 });
