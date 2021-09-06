@@ -13,9 +13,21 @@ router.post("/users", async (req, res) => {
   const user = new User(req.body);
   try {
     console.log("user", req.body, user);
-    await user.save();
-    sendWelcomeEmail(user.email, user.name);
-    const token = await user.generateAuthToken();
+    try {
+      await user.save();
+    } catch (e) {
+      console.log("error", e);
+    }
+    try {
+      sendWelcomeEmail(user.email, user.name);
+    } catch (e) {
+      console.log("error 2", e);
+    }
+    try {
+      const token = await user.generateAuthToken();
+    } catch (e) {
+      console.log("error3", e);
+    }
     console.log("token", token);
     res.status(201).send({ user, token });
   } catch (e) {

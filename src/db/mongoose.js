@@ -1,8 +1,18 @@
 const mongoose = require("mongoose");
 
-mongoose.connect(process.env.MONGODB_URL, {
-  useNewurlParser: true,
-});
+// mongoose.connect("mongodb://127.0.0.1:27017/task-manager-api", {
+//   useNewurlParser: true,
+// });
+
+mongoose
+  .connect(process.env.MONGODB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
+  .then(() => console.log("Database connected!"))
+  .catch((err) => console.log(err));
+console.log("process.env.MONGODB_URL", process.env.MONGODB_URL);
 // const User = mongoose.model("User", {
 //     name: {
 //       type: String,
