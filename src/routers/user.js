@@ -12,11 +12,14 @@ const {
 router.post("/users", async (req, res) => {
   const user = new User(req.body);
   try {
+    console.log("user", req.body, user);
     await user.save();
     sendWelcomeEmail(user.email, user.name);
     const token = await user.generateAuthToken();
+    console.log("token", token);
     res.status(201).send({ user, token });
   } catch (e) {
+    console.log("Error", e);
     res.status(400).send(e);
   }
 });
