@@ -11,6 +11,7 @@ const {
 
 router.post("/users", async (req, res) => {
   const user = new User(req.body);
+  let token;
   try {
     console.log("user", req.body, user);
     try {
@@ -24,7 +25,7 @@ router.post("/users", async (req, res) => {
       console.log("error 2", e);
     }
     try {
-      const token = await user.generateAuthToken();
+      token = await user.generateAuthToken();
     } catch (e) {
       console.log("error3", e);
     }
